@@ -21,9 +21,9 @@
 #
 ##############################################################################
 
-
-import company
-import partner
-import account
-import wizard
-import report
+from . import company
+from . import partner
+from . import account
+from . import xml_pa
+from . import wizard
+from . import report

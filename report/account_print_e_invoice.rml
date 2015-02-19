@@ -286,10 +286,10 @@
           <para style="terp_default_Centre_9">[[ o.partner_id.ipa_code or ' ' ]]</para>
         </td>
         <td>
-          <para style="terp_default_Centre_9">[[ o.codice_cup or '' ]]</para>
+          <para style="terp_default_Centre_9">[[ o.cup or '' ]]</para>
         </td>
         <td>
-          <para style="terp_default_Centre_9">[[ o.codice_cig or '' ]]</para>
+          <para style="terp_default_Centre_9">[[ o.cig or '' ]]</para>
         </td>
         <td>
           <para style="terp_default_Centre_9">[[ o.codice_commessa or '' ]]</para>

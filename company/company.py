@@ -21,48 +21,46 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 import logging
 _logger = logging.getLogger('E-Invoice - Company')
 
 
-class res_company(osv.osv):
+class res_company(orm.Model):
 
     _inherit = "res.company"
 
     _columns = {
-        'e_invoice_ftp_path': fields.char('FTP path for e-invoice', size=128),
-        'e_invoice_ftp_port': fields.char('FTP port for e-invoice', size=8),
-        'e_invoice_ftp_username': fields.char('Username', size=64),
-        'e_invoice_ftp_password': fields.char('Password', size=64),
-        'e_invoice_ftp_filepath': fields.char('FTP File path for e-invoice',
-                                              size=128,
-                                              help='/e-invoice/'),
-        }
-
-    def get_ftp_vals(self, cr, uid, company_id=False, context=None):
-        # ----- If there isn't a company as parameter
-        #       extracts it from user
-        if not company_id:
-            company_id = self.pool.get('res.users').browse(
-                cr, uid, uid, context).company_id.id
-        company = self.browse(cr, uid, company_id, context)
-        if not company.e_invoice_ftp_path:
-            raise osv.except_osv(
-                _('Error'),
-                _('Define an FTP path for this company'))
-        return (company.e_invoice_ftp_path,
-                company.e_invoice_ftp_port or '21',
-                company.e_invoice_ftp_username,
-                company.e_invoice_ftp_password,
-                company.e_invoice_ftp_filepath or '')
+        'e_invoice_transmitter': fields.many2one('res.partner', _('eInvoice transmitter'), domain="[('supplier', '=', True)]", help="Il partner che effettuerà la trasmissione verso la PA."),
+        'rea': fields.boolean('Società iscritta nel registro delle imprese', help="""Società iscritta nel registro delle imprese"""),
+        'rea_ufficio': fields.many2one('res.province', 'Provincia Ufficio REA', required=False),
+        'rea_numero': fields.char('Numero REA', size=20, required=False),
+        'capitale_sociale': fields.float('Capitale Sociale, €', digits=(12, 2), required=False, help="""Il campo deve contenere l’importo del capitale sociale effettivamente versato come risultante dall’ultimo bilancio; è previsto un valore numerico composto da un intero e da due decimali; i decimali, separati dall’intero con il carattere punto (“.”), vanno sempre indicati anche se pari a zero (es.: 28000000.00)."""),
+        'socio_unico': fields.selection((('SU', u'Socio Unico'), ('SM', u'Società Pluripersonale')), 'Socio Unico', required=False),
+        'forma_societaria': fields.selection((
+            # ('di', u'Ditta Individuale'),
+            # ('ss', u'Società Semplice'),
+            # ('snc', u'Società in Nome Collettivo'),
+            # ('sas', u'Società in Accomandita Semplice'),
+            ('spa', u'Società per Azioni'),
+            ('sapa', u'Società in accomandita per azioni'),
+            ('srl', u'Società a responsabilità limitata'),
+            ('altri', u'Altri')
+        ), 'Forma societaria', required=False),
+        'stato_liquidazione': fields.selection((
+                                               ('LS', 'In Liquidazione'),
+                                               ('LN', 'Non in Liquidazione')),
+                                               'Stato Liquidazione', required=False)
+    }
 
     def get_vat(self, cr, uid, company_id=False, context=None):
-        if not company_id:
-            company_id = self.pool.get('res.users').browse(
-                cr, uid, uid, context).company_id.id
-        company = self.browse(cr, uid, company_id, context)
+        if company_id:
+            company = self.browse(cr, uid, company_id, context)
+        else:
+            company = self.pool.get('res.users').browse(
+                cr, uid, uid, context).company_id
+
         if not company.vat:
-            _logger.info('No VAT for company %s' % (company.name))
+            _logger.info('No VAT defined for company %s' % (company.name))
         return company.vat or '!'

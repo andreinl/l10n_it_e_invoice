@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-
-    <record id="view_partner_e-invoice_form" model="ir.ui.view">
-        <field name="name">view.partner.e-invoice.form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
-            <field name="lang" position="after">
-                <field name="ipa_code"/>
+    <data>
+        <record id="view_partner_e-invoice_form" model="ir.ui.view">
+            <field name="name">view.partner.e-invoice.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="lang" position="after">
+                    <field name="ipa_code"/>
+                    <!--<field name="estero_stabile_organizzazione" />-->
+                    <field name="administration_reference" />
+                </field>
+                <notebook position="inside">
+                    <page string="E-invoice">
+                        <field name="e_invoice_protocol" colspan="2" />
+                        <newline />
+                        <field name="e_invoice_host" colspan="2"/>
+                        <field name="e_invoice_port" colspan="2"
+                            attrs="{'required': [('e_invoice_host', '!=', False)]}"/>
+                        <field name="e_invoice_username" colspan="2"
+                            attrs="{'required': [('e_invoice_host', '!=', False)]}"/>
+                        <field name="e_invoice_password" colspan="2"
+                            attrs="{'required': [('e_invoice_host', '!=', False)]}"/>
+                        <field name="e_invoice_file_path" colspan="2"/>
+                    </page>
+                </notebook>
             </field>
-        </field>
-    </record>
-
-</data>
+        </record>
+    </data>
 </openerp>

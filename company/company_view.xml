@@ -9,14 +9,21 @@
         <field name="arch" type="xml">
             <page string="Configuration" position="inside">
                 <separator string="E-Invoice" colspan="4"/>
-                <field name="e_invoice_ftp_path" colspan="2"/>
-                <field name="e_invoice_ftp_port" colspan="2"
-                    attrs="{'required': [('e_invoice_ftp_path', '!=', False)]}"/>
-                <field name="e_invoice_ftp_username" colspan="2"
-                    attrs="{'required': [('e_invoice_ftp_path', '!=', False)]}"/>
-                <field name="e_invoice_ftp_password" colspan="2"
-                    attrs="{'required': [('e_invoice_ftp_path', '!=', False)]}"/>
-                <field name="e_invoice_ftp_filepath" colspan="2"/>
+                <field name="e_invoice_transmitter" colspan="2"/>
+            </page>
+            <page string="Configuration" position="after">
+                <page string="REA">
+                    <field name="rea" colspan="4" />
+                    <!--<separator colspan="4"/>-->
+                    <group attrs="{'invisible': [('rea', '=', False)]}" colspan="4" col="4">
+                        <field name="rea_ufficio" attrs="{'required': [('rea', '=', True)]}" colspan="2" />
+                        <field name="rea_numero" attrs="{'required': [('rea', '=', True)]}" colspan="2" />
+                        <field name="forma_societaria" attrs="{'required': [('rea', '=', True)]}" colspan="2" />
+                        <field name="capitale_sociale" attrs="{'required': [('rea', '=', True), ('forma_societaria', 'in', ('spa', 'sapa', 'srl'))]}" colspan="2" />
+                        <field name="socio_unico" attrs="{'required': [('rea', '=', True), ('forma_societaria', 'in', ('srl',))]}" colspan="2" />
+                        <field name="stato_liquidazione" attrs="{'required': [('rea', '=', True)]}" colspan="2" />
+                    </group>
+                </page>
             </page>
         </field>
     </record>
