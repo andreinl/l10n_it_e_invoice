@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="seq_type_invoice_pa" model="ir.sequence.type">
+            <field name="name">Invoice PA</field>
+            <field name="code">e_invoice_pa</field>
+        </record>
+        <record id="seq_invoice_pa_item" model="ir.sequence">
+            <field name="name">Invoice PA</field>
+            <field name="code">e_invoice_pa</field>
+            <field name="prefix">E</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</openerp>
