@@ -49,6 +49,9 @@ coverage.xml
 *.log
 *.pot
 
+# pyCharm
+.idea
+
 # Sphinx documentation
 docs/_build/
 
