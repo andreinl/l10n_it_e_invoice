@@ -47,5 +47,5 @@ La composizione della fattura avviene all'interno del file wizard/wizard_send_in
 
 La funzione create_xml() raccoglie i dati necessari e poi chiama le funzioni della classe InvoicePa del file xml_pa/xml_invoice.py che man mano compongono tutto il file XML.
 
-Chiunque avesse voglia di collaborare deve prima di tutto leggere la description dentro file __openerp__.py che contiene diverse utili informazioni.
+Chiunque avesse voglia di collaborare deve prima di tutto leggere la description dentro file \_\_openerp\_\_.py che contiene diverse utili informazioni.
 
